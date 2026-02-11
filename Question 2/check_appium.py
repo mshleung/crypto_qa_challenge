@@ -5,7 +5,7 @@ import requests
 
 
 def is_appium_running(host="http://localhost", port=4723):
-    url = f"{host}:{port}/status"
+    url = f"{host}:{port}/wd/hub/status"
     try:
         response = requests.get(url, timeout=3)
         if response.status_code == 200:
