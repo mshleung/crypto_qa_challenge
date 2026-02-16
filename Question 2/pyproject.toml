@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "question-2"
+version = "0.1.0"
+description = "Appium UI automation for MyObservatory APK"
+authors = ["Your Name <your.email@example.com>"]
+packages = [
+    { include = "tests" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4.0"
+appium-python-client = "*"
+selenium = "*"
+requests = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

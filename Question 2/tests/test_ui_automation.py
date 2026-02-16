@@ -23,6 +23,7 @@ class TestUIAutomation:
         time.sleep(1)
         el.click()
         time.sleep(1)
+        print("Clicked Agree")
 
         # After Agree, click the system/dialog positive button if present
         try:
@@ -32,25 +33,33 @@ class TestUIAutomation:
             pass
 
         time.sleep(1)
-        # Click the app's exit button twice (if present)
-        for _ in range(2):
+        # Click the app's exit button up to twice. Some versions display two
+        # buttons simultaneously, others replace the element on first click.
+        # Use an explicit wait each time so we can log what happened.
+        for attempt in range(2):
             try:
-                exit_btn = wait.until(EC.element_to_be_clickable((AppiumBy.ID, "hko.MyObservatory_v1_0:id/exit_btn")))
+                exit_btn = wait.until(EC.element_to_be_clickable(
+                    (AppiumBy.ID, "hko.MyObservatory_v1_0:id/exit_btn")
+                ))
+                print(f"exit_btn found on attempt {attempt}, clicking")
                 exit_btn.click()
-                time.sleep(1)
-            except Exception:
-                pass
+                time.sleep(2)
+            except Exception as exc:
+                # nothing more to do if the button isn't present/clickable
+                print(f"exit_btn not clickable on attempt {attempt}: {exc}")
+                break
 
-        time.sleep(3)
-        driver_android.save_screenshot("after_agree.png")
-        print("Clicked Agree, button1, and exit_btn twice")
+        time.sleep(2)
+        print("Finished exit_btn clicks")
 
         # Finally, click 'Do not show again' if present
         try:
             dna = wait.until(EC.element_to_be_clickable((AppiumBy.ID, "hko.MyObservatory_v1_0:id/do_not_show_again_btn")))
+            print("do_not_show_again button located, clicking")
             dna.click()
-        except Exception:
-            pass
+        except Exception as exc:
+            print(f"do_not_show_again not clicked: {exc}")
+        print("Finished do_not_show_again step")
 
     def test_open_forecast(self, driver_android):
         """Open the hamburger menu, expand first collapsed item, and select the forecast option."""
