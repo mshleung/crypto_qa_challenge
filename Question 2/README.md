@@ -37,7 +37,7 @@ poetry shell
 ### 5. Configure Appium and Emulator/Device
 - Start the Appium server on another terminal window: appium -p 4723 (default: http://localhost:4723)
 - Ensure your Android emulator or device is running and the APK path in `conftest.py` is correct.
-- the APK that was used in this assignment is included in the root folder of this assignment. 
+- the APK that was used in this assignment is version v5.18, I downloaded mine on "https://myobservatory.en.uptodown.com/android" 
 
 ### 6. Run the Tests
 You can run all tests using Poetry:
