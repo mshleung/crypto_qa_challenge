@@ -1,4 +1,5 @@
 # QA Challenges: My thoughts and conclusions
+Each of the folder represents the assessment question itself. Please find the README under each folder for instructions to run. Thanks!
 
 # Question 1
 This question in my opinion is the fastest to finish, the algo is not very hard. I think this question mainly want to focus on if I have checked all the edge cases with pytest.
