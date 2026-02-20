@@ -11,7 +11,7 @@ This project implements and tests a function to generate a centered pyramid patt
 
 ### 1. Clone the Repository
 ```
-git clone <your-repo-url>
+git clone https://github.com/mshleung/crypto_qa_challenge
 cd <repo-root>/Question 1
 ```
 

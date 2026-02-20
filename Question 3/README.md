@@ -11,7 +11,7 @@ This project demonstrates how to access and verify market data from the Shenzhen
 
 ### 1. Clone the Repository
 ```
-git clone <your-repo-url>
+git clone https://github.com/mshleung/crypto_qa_challenge
 cd <repo-root>/Question 3
 ```
 

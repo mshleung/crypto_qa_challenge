@@ -14,7 +14,7 @@ This project currently runs on android emulator only. This is mainly because my 
 
 ### 1. Clone the Repository
 ```
-git clone <your-repo-url>
+git clone https://github.com/mshleung/crypto_qa_challenge
 cd <repo-root>/Question 2
 ```
 

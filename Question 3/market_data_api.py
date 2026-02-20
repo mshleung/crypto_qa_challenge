@@ -1,20 +1,3 @@
-"""
-Demonstration of how to call the SZSE market‑data API for a given instrument.
-
-Follow these steps in your browser first:
-
-1. Open the page at
-   https://www.szse.cn/English/siteMarketData/siteMarketDatas/lookup/index.html?code=000001
-2. Open the developer tools (F12) and switch to the Network tab.
-3. Reload the page and look for XHR/Fetch requests that return JSON with
-   market data.  One of those requests will contain the high/low prices for
-   the specified code; note the request URL and any required query parameters
-   or headers.  That is the API endpoint you will use below.
-
-The code below is a template; replace ``API_URL`` with the URL that you
-captured in step 3.
-"""
-
 import requests
 import random
 
