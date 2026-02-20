@@ -1,12 +1,13 @@
 # Question 2: Appium UI Automation for MyObservatory APK
 
 ## Project Overview
-This project contains automated UI tests for the MyObservatory Android APK using Appium and pytest.
+This project contains automated UI tests for the MyObservatory Android APK using Appium and pytest. 
+This project currently runs on android emulator only. This is mainly because my Macbook Pro is from 2015 and it is only on MacOS 12.7.6, and I cannot install the newest Xcode. Running the android emulator also almost burned down my table.
 
 ## Prerequisites
 - Python 3.8 or newer (recommended: Python 3.10+)
 - Poetry (for dependency and environment management)
-- Appium server (running and accessible)
+- Appium server (running and accessible, for more details please check 'AppiumSetup.md')
 - Android emulator or device with the MyObservatory APK installed
 
 ## Setup Instructions

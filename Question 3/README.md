@@ -18,8 +18,6 @@ cd <repo-root>/Question 3
 ### 2. Install Poetry (if not already installed)
 ```
 pip install poetry
-# or (recommended)
-curl -sSL https://install.python-poetry.org | python3 -
 ```
 
 ### 3. Install Dependencies

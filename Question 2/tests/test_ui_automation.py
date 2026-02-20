@@ -110,7 +110,7 @@ class TestUIAutomation:
                 continue
         time.sleep(1)
 
-        driver_android.save_screenshot('open_forecast.png')
+        #driver_android.save_screenshot('open_forecast.png')
         print('Opened forecast option')
 
     def test_verify_firstdate(self, driver_android):
