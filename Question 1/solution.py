@@ -36,4 +36,4 @@ def generate_pyramid(n, char='*'):
 
 # Example usage
 if __name__ == "__main__":
-    print(generate_pyramid(5, '#'))
+    print(generate_pyramid(3, '#'))

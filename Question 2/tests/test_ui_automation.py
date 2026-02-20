@@ -114,9 +114,38 @@ class TestUIAutomation:
         print('Opened forecast option')
 
     def test_verify_firstdate(self, driver_android):
-        """Collect TextView content-desc dates and ensure the smallest date == today."""
+        """Collect TextView content-desc dates and verify against next update time logic."""
         wait = WebDriverWait(driver_android, 5)
         today = datetime.date.today()
+        tomorrow = today + datetime.timedelta(days=1)
+
+        # Extract next update time element
+        try:
+            next_update_el = driver_android.find_element(AppiumBy.ID, "hko.MyObservatory_v1_0:id/next_update_time")
+            next_update_text = next_update_el.get_attribute("text")
+            print("Next update time text:", next_update_text)
+        except Exception as exc:
+            print(f"Could not find next_update_time element: {exc}")
+            next_update_text = ""
+
+        # Parse next update time and date
+        update_day = today
+        update_time = None
+        m = re.search(r"Next update at:(\d{2}:\d{2}) HKT (\d{1,2})/(\w{3})/(\d{4})", next_update_text)
+        if m:
+            update_time = m.group(1)
+            update_day = int(m.group(2))
+            update_month = m.group(3)
+            update_year = int(m.group(4))
+            try:
+                update_month_num = datetime.datetime.strptime(update_month, "%b").month
+            except Exception:
+                update_month_num = today.month
+            update_date = datetime.date(update_year, update_month_num, update_day)
+            print(f"Parsed next update: {update_time}, {update_date}")
+        else:
+            print("Could not parse next update time/date.")
+            update_date = today
 
         # collect TextView elements that have a content-desc attribute
         elems = driver_android.find_elements(AppiumBy.XPATH, '//android.widget.TextView[@content-desc]')
@@ -132,7 +161,6 @@ class TestUIAutomation:
             day = int(m.group(1))
             month_name = m.group(2)
             year = int(m.group(3)) if m.group(3) else None
-            # resolve month number
             try:
                 month = datetime.datetime.strptime(month_name, '%B').month
             except ValueError:
@@ -155,7 +183,6 @@ class TestUIAutomation:
                 parsed = datetime.date(y, month, day)
             except Exception:
                 continue
-            # handle possible year rollover when year omitted
             if not year:
                 if parsed < today and (month - today.month) % 12 > 6:
                     parsed = datetime.date(y + 1, month, day)
@@ -171,7 +198,20 @@ class TestUIAutomation:
         smallest, raw = resolved[0]
         print('Smallest parsed date:', smallest)
         print('Today is:', today)
-        assert smallest == today, f'Smallest date {smallest} (raw: {raw}) does not match today {today}'
-        driver_android.save_screenshot('first_date.png')
-        print('Verified smallest forecast date:', smallest, 'raw:', raw)
-    # test_verify_9_day_dates removed per request
+        # Decision logic:
+        # If next update time is 11:30 and update_date == tomorrow, expect smallest == tomorrow
+        # If next update time is 11:30 and update_date == today, expect smallest == today
+        # Otherwise, expect smallest == tomorrow
+        if update_time == "11:30":
+            if update_date == tomorrow:
+                assert smallest == tomorrow, f"Smallest date {smallest} (raw: {raw}) does not match expected tomorrow {tomorrow}"
+                print(f"Verified smallest forecast date is tomorrow: {smallest} (raw: {raw})")
+            elif update_date == today:
+                assert smallest == today, f"Smallest date {smallest} (raw: {raw}) does not match today {today}"
+                print(f"Verified smallest forecast date is today: {smallest} (raw: {raw})")
+            else:
+                assert smallest == tomorrow, f"Smallest date {smallest} (raw: {raw}) does not match expected tomorrow {tomorrow}"
+                print(f"Verified smallest forecast date is tomorrow: {smallest} (raw: {raw})")
+        else:
+            assert smallest == tomorrow, f"Smallest date {smallest} (raw: {raw}) does not match expected tomorrow {tomorrow}"
+            print(f"Verified smallest forecast date is tomorrow: {smallest} (raw: {raw})")
